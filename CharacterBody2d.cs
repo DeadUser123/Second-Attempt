@@ -13,7 +13,7 @@ public partial class CharacterBody2d : CharacterBody2D
 		// Add the gravity.
 		if (!IsOnFloor())
 		{
-			velocity += GetGravity() * (float)delta * 0;
+			velocity += GetGravity() * (float)delta * 0; // 0 because there's no gravity in space lol
 		}
 
 		// Handle Jump.
@@ -27,10 +27,12 @@ public partial class CharacterBody2d : CharacterBody2D
 		Vector2 direction = Input.GetVector("left", "right", "up", "down");
 		if (direction != Vector2.Zero) {
 			velocity.X = direction.X * Speed;
+			velocity.Y = direction.Y * Speed;
 		}
 		else
 		{
 			velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
 		}
 
 		Velocity = velocity;

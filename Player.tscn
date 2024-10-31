@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://be8a5hx6odjn3"]
 
 [ext_resource type="Script" path="res://CharacterBody2d.cs" id="1_ablh7"]
-[ext_resource type="Texture2D" uid="uid://csx0o7fa6r51k" path="res://icon.svg" id="2_pesb6"]
+[ext_resource type="Texture2D" uid="uid://dy1aeycotn45d" path="res://Test_Turret_Sprite.png" id="2_uvr3f"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8rqv1"]
 radius = 72.0
@@ -16,4 +16,4 @@ shape = SubResource("CapsuleShape2D_8rqv1")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(488, 156)
-texture = ExtResource("2_pesb6")
+texture = ExtResource("2_uvr3f")
