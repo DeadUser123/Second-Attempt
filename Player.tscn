@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://be8a5hx6odjn3"]
 
-[ext_resource type="Script" path="res://CharacterBody2d.cs" id="1_ablh7"]
+[ext_resource type="Script" path="res://Player.cs" id="1_ablh7"]
 [ext_resource type="Texture2D" uid="uid://dy1aeycotn45d" path="res://Test_Turret_Sprite.png" id="2_uvr3f"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8rqv1"]

@@ -1,7 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2rwgk5b0lmjn"]
+[gd_scene load_steps=3 format=3 uid="uid://c2rwgk5b0lmjn"]
 
 [ext_resource type="PackedScene" uid="uid://be8a5hx6odjn3" path="res://Player.tscn" id="1_ar6aj"]
+[ext_resource type="PackedScene" uid="uid://v5f2mkcuko7b" path="res://TestSpawner.tscn" id="2_fp8g3"]
 
 [node name="Main" type="Node2D"]
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_ar6aj")]
+
+[node name="TestSpawner" parent="." instance=ExtResource("2_fp8g3")]
