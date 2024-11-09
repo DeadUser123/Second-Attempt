@@ -7,13 +7,14 @@
 radius = 72.0
 height = 144.0
 
-[node name="CharacterBody2D" type="CharacterBody2D"]
+[node name="Player" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_ablh7")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(487, 157)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_8rqv1")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(488, 156)
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
 texture = ExtResource("2_uvr3f")
