@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bhl3cpaxjtl8k"]
+
+[ext_resource type="Script" path="res://EnemyCollisionDetection.cs" id="1_r1eb1"]
+[ext_resource type="Texture2D" uid="uid://csx0o7fa6r51k" path="res://icon.svg" id="2_jc27q"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eodmq"]
+size = Vector2(128, 131)
+
+[node name="EnemyTest" type="CharacterBody2D"]
+script = ExtResource("1_r1eb1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+texture = ExtResource("2_jc27q")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_eodmq")

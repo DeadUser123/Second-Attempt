@@ -3,18 +3,19 @@
 [ext_resource type="Script" path="res://Player_Bullet.cs" id="1_6q43h"]
 [ext_resource type="Texture2D" uid="uid://csx0o7fa6r51k" path="res://icon.svg" id="2_65g8a"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_2wen6"]
-radius = 63.0
-height = 128.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_656xk"]
+size = Vector2(121, 124)
 
 [node name="TestProjectile" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_6q43h")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-shape = SubResource("CapsuleShape2D_2wen6")
-disabled = true
-
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
 texture = ExtResource("2_65g8a")
+
+[node name="Area2D" type="Area2D" parent="CharacterBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D/Area2D"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_656xk")

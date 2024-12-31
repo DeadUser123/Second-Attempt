@@ -7,7 +7,6 @@ public partial class Player : CharacterBody2D
 	public const float JumpVelocity = -400.0f;
 
 	public override void _PhysicsProcess(double delta) {
-		Console.WriteLine("runs");
 		Vector2 velocity = Velocity;
 
 		// Add the gravity.

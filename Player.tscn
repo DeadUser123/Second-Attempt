@@ -4,17 +4,17 @@
 [ext_resource type="Texture2D" uid="uid://dy1aeycotn45d" path="res://Test_Turret_Sprite.png" id="2_uvr3f"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8rqv1"]
-radius = 72.0
-height = 144.0
+radius = 137.0
+height = 274.0
 
 [node name="Player" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
 script = ExtResource("1_ablh7")
 
+[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
+texture = ExtResource("2_uvr3f")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_8rqv1")
-
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-texture = ExtResource("2_uvr3f")
