@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://ni8cj3sakvff"]
+
+[ext_resource type="Script" path="res://Score.cs" id="1_lxj6v"]
+
+[node name="Score" type="RichTextLabel"]
+anchors_preset = -1
+anchor_right = 0.208
+anchor_bottom = 0.045
+offset_right = 0.384003
+offset_bottom = -0.160002
+text = "Score:"
+script = ExtResource("1_lxj6v")
