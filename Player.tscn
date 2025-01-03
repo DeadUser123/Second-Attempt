@@ -10,6 +10,7 @@ height = 274.0
 [node name="Player" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_mask = 5
 script = ExtResource("1_ablh7")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
