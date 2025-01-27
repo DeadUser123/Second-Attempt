@@ -1,22 +1,31 @@
 using Godot;
 using System;
-
+using System.Collections.Generic;
 public partial class EnemyScript : CharacterBody2D {
-	[Export] public float speed = 100f;        // Speed of the enemy
+	[Export] public float speed = 400f;        // Speed of the enemy
     [Export] public float ShootingInterval = 2f; // Time between shots
     private Vector2 _direction;               // Movement direction
     private Timer _shootTimer;                // Timer for shooting
+	private double direction_decision_time;
 	private Node2D _player;                   // Reference to the player
 	private Score scoreText; // Reference to the Score node
+	private List<Vector2> directions = new List<Vector2>();
+	private Random rng;
     public override void _Ready()
     {
+		directions.Add(Vector2.Up);
+		directions.Add(Vector2.Down);
+		directions.Add(Vector2.Left);
+		directions.Add(Vector2.Right);
+		rng = new Random();
 		
 		scoreText = GetNode<Score>("/root/Main/Score");
 
 		_player = GetNode<Node2D>("/root/Main/CharacterBody2D/CharacterBody2D");
 
-		// _direction = new Vector2(0, 1); // Move downward initially
+		_direction = directions[rng.Next(0, 4)];
         // _shootTimer.Start();
+		direction_decision_time = 0;
     }
 
 	public void GotHit() {
@@ -24,6 +33,24 @@ public partial class EnemyScript : CharacterBody2D {
 	}
     public override void _PhysicsProcess(double delta)
     {
-		// Position += _direction * speed * delta;
+		direction_decision_time += delta;
+		if (direction_decision_time > 1) {
+			_direction = directions[rng.Next(0, 4)];
+			direction_decision_time = 0;
+		}
+		if (this.Position.Y < 0) {
+			_direction = Vector2.Down;
+			direction_decision_time = 0;
+		} else if (this.Position.Y > 650) {
+			_direction = Vector2.Up;
+			direction_decision_time = 0;
+		} else if (this.Position.X < 0) {
+			_direction = Vector2.Right;
+			direction_decision_time = 0;
+		} else if (this.Position.X > 1150) {
+			_direction = Vector2.Left;
+			direction_decision_time = 0;
+		}
+		Position += _direction * speed * (float) delta;
 	}
 }

@@ -20,4 +20,12 @@ public partial class Score : RichTextLabel
 		score += amount;
 		this.Text = $"Score: {score}";
 	}
+
+	public void SetScore(int new_score) {
+		score = new_score;
+	}
+
+	public int GetScore() {
+		return score;
+	}
 }
