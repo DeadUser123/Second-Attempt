@@ -26,16 +26,24 @@ public partial class EnemyScript : CharacterBody2D {
 		_direction = directions[rng.Next(0, 4)];
         // _shootTimer.Start();
 		direction_decision_time = 0;
+		Position = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
     }
 
 	public void GotHit() {
 		scoreText.ChangeScore(100);
+		this.relocate();
+	}
+
+	public void relocate() {
+		Position = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
 	}
     public override void _PhysicsProcess(double delta)
     {
 		direction_decision_time += delta;
-		if (direction_decision_time > 1) {
-			_direction = directions[rng.Next(0, 4)];
+		if (direction_decision_time > 0.2) {
+			if (rng.Next(0, 5) == 0) {
+				_direction = directions[rng.Next(0, 4)];
+			}
 			direction_decision_time = 0;
 		}
 		if (this.Position.Y < 0) {

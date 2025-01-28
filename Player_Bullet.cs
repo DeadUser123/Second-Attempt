@@ -3,7 +3,7 @@ using System;
 
 public partial class Player_Bullet : CharacterBody2D
 {
-    public const float Speed = 300.0f;
+    public const float Speed = 800.0f;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -32,7 +32,7 @@ public partial class Player_Bullet : CharacterBody2D
         KinematicCollision2D collision = MoveAndCollide(velocity * (float) delta);
 		if (collision != null) {
 			Node2D collider = collision.GetCollider() as Node2D;
-			if (collider.IsInGroup("Enemy")) {
+			if (collider is EnemyScript enemyScript) {
 				var enemy = collider as EnemyScript;
 				enemy.GotHit();
 				QueueFree();

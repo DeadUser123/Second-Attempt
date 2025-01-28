@@ -5,6 +5,10 @@ public partial class Player : CharacterBody2D
 {
 	public const float Speed = 300.0f;
 	public const float JumpVelocity = -400.0f;
+	private Score scoreText; // Reference to the Score node
+	public override void _Ready() {
+		scoreText = GetNode<Score>("/root/Main/Score");
+	}
 
 	public override void _PhysicsProcess(double delta) {
 		Vector2 velocity = Velocity;
@@ -35,6 +39,14 @@ public partial class Player : CharacterBody2D
 		}
 
 		Velocity = velocity;
-		MoveAndSlide();
+		KinematicCollision2D collision = MoveAndCollide(velocity * (float) delta);
+		if (collision != null) {
+			Node2D collider = collision.GetCollider() as Node2D;
+			if (collider is EnemyScript enemyScript) {
+				var enemy = collider as EnemyScript;
+				enemy.relocate();
+				scoreText.ChangeScore(-200);
+			}
+		}
 	}
 }
