@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://byxpsvntmpr8m"]
+
+[ext_resource type="Script" path="res://ToGameButton.cs" id="1_wuowk"]
+[ext_resource type="Script" path="res://HighScore.cs" id="2_pnuuw"]
+[ext_resource type="Script" path="res://DeathMessage.cs" id="3_hsn05"]
+
+[node name="GameOver" type="Node2D"]
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 465.0
+offset_top = 188.0
+offset_right = 712.0
+offset_bottom = 254.0
+theme_override_font_sizes/normal_font_size = 42
+text = "Game Over!"
+
+[node name="Button" type="Button" parent="."]
+offset_left = 465.0
+offset_top = 341.0
+offset_right = 717.0
+offset_bottom = 480.0
+theme_override_font_sizes/font_size = 30
+text = "Play Again"
+script = ExtResource("1_wuowk")
+
+[node name="HighScore" type="RichTextLabel" parent="."]
+offset_left = 437.0
+offset_top = 257.0
+offset_right = 1147.0
+offset_bottom = 297.0
+theme_override_font_sizes/normal_font_size = 20
+text = "Your Score Was 0000"
+script = ExtResource("2_pnuuw")
+
+[node name="Death Message" type="RichTextLabel" parent="."]
+offset_left = 438.0
+offset_top = 292.0
+offset_right = 1152.0
+offset_bottom = 332.0
+theme_override_font_sizes/normal_font_size = 20
+text = "You Were Killed By A Generic Enemy"
+script = ExtResource("3_hsn05")

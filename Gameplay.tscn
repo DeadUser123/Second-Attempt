@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0vvp42xgp21s"]
+
+[ext_resource type="PackedScene" uid="uid://v5f2mkcuko7b" path="res://TestSpawner.tscn" id="1_vwtcd"]
+[ext_resource type="PackedScene" uid="uid://be8a5hx6odjn3" path="res://Player.tscn" id="2_oojlc"]
+[ext_resource type="PackedScene" uid="uid://bhl3cpaxjtl8k" path="res://EnemyTest.tscn" id="3_m1av6"]
+[ext_resource type="PackedScene" uid="uid://ni8cj3sakvff" path="res://Score.tscn" id="4_ooqqy"]
+
+[node name="Gameplay" type="Node2D"]
+
+[node name="TestSpawner" parent="." instance=ExtResource("1_vwtcd")]
+position = Vector2(-4, -890)
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("2_oojlc")]
+position = Vector2(570, 475)
+
+[node name="EnemyTest" parent="." groups=["Enemy"] instance=ExtResource("3_m1av6")]
+
+[node name="Score" parent="." instance=ExtResource("4_ooqqy")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 1157.0
+offset_bottom = 23.0
+fit_content = true
+
+[node name="EnemyTest2" parent="." instance=ExtResource("3_m1av6")]
+
+[node name="EnemyTest3" parent="." instance=ExtResource("3_m1av6")]
+
+[node name="EnemyTest4" parent="." instance=ExtResource("3_m1av6")]
+
+[node name="EnemyTest5" parent="." instance=ExtResource("3_m1av6")]

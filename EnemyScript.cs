@@ -19,9 +19,9 @@ public partial class EnemyScript : CharacterBody2D {
 		directions.Add(Vector2.Right);
 		rng = new Random();
 		
-		scoreText = GetNode<Score>("/root/Main/Score");
+		scoreText = GetNode<Score>("/root/Gameplay/Score");
 
-		_player = GetNode<Node2D>("/root/Main/CharacterBody2D/CharacterBody2D");
+		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
 
 		_direction = directions[rng.Next(0, 4)];
         // _shootTimer.Start();

@@ -19,7 +19,7 @@ public partial class TestSpawner : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_player = GetNode<Node2D>("/root/Main/CharacterBody2D/CharacterBody2D");
+		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
