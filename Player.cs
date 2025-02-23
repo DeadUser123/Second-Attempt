@@ -37,4 +37,10 @@ public partial class Player : CharacterBody2D
 			}
 		}
 	}
+
+	public void GotHit(String cause) {
+		GetTree().SetMeta("death_message", "You Were Killed By " + cause);
+		GetTree().SetMeta("score", scoreText.GetScore());
+		GetTree().ChangeSceneToFile("res://GameOver.tscn");
+	}
 }
