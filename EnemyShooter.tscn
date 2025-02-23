@@ -1,3 +1,29 @@
-[gd_scene format=3 uid="uid://py5a10ogjk5m"]
+[gd_scene load_steps=5 format=3 uid="uid://py5a10ogjk5m"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="Script" path="res://EnemyShooter.cs" id="1_d6ogx"]
+[ext_resource type="Texture2D" uid="uid://hqucl7bynt11" path="res://Chaser.png" id="2_e2ufp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fshcr"]
+size = Vector2(64, 65)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dv320"]
+size = Vector2(54, 58)
+
+[node name="EnemyShooter" type="Node2D"]
+script = ExtResource("1_d6ogx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_e2ufp")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_fshcr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_dv320")

@@ -1,3 +1,29 @@
-[gd_scene format=3 uid="uid://tu26jus1cqh8"]
+[gd_scene load_steps=5 format=3 uid="uid://tu26jus1cqh8"]
+
+[ext_resource type="Script" path="res://EnemyBullet.cs" id="1_ggdrr"]
+[ext_resource type="Texture2D" uid="uid://hqucl7bynt11" path="res://Chaser.png" id="2_ycpe6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pv5n0"]
+size = Vector2(64, 65)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6qr4r"]
+size = Vector2(54, 58)
 
 [node name="EnemyBullet" type="Node2D"]
+script = ExtResource("1_ggdrr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_ycpe6")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_pv5n0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_6qr4r")
