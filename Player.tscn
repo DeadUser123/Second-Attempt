@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://be8a5hx6odjn3"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_ablh7"]
-[ext_resource type="Texture2D" uid="uid://c3m7sc7mno5ry" path="res://Shuttle.png" id="2_pqmhu"]
+[ext_resource type="Texture2D" uid="uid://d22j1t4w76plt" path="res://player.png" id="2_3tfhv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wn3ia"]
 size = Vector2(126, 130)
@@ -15,7 +15,7 @@ script = ExtResource("1_ablh7")
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
 modulate = Color(0.784314, 0.705882, 0.705882, 1)
 scale = Vector2(0.3, 0.3)
-texture = ExtResource("2_pqmhu")
+texture = ExtResource("2_3tfhv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 position = Vector2(-1, -1)
