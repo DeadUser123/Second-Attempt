@@ -23,8 +23,8 @@ public partial class Missile : CharacterBody2D
 	{
 		Vector2 destination = _player.GlobalPosition;
 		acceleration = destination - GlobalPosition;
-		velocity += acceleration.Clamp(-50, 50);
-		velocity = velocity.Clamp(-1000, 1000);
+		velocity += acceleration.LimitLength((float)(100 * Math.Sqrt(2.0)));
+		velocity = velocity.LimitLength((float)(1000 * Math.Sqrt(2.0)));
 		Position += velocity * (float)delta;
 	}
 }

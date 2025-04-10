@@ -3,7 +3,7 @@ using System;
 
 public partial class Player : CharacterBody2D
 {
-	public const float Speed = 300.0f;
+	public const float Speed = 600.0f;
 	public const float JumpVelocity = -400.0f;
 	private Score scoreText; // Reference to the Score node
 	public override void _Ready()
