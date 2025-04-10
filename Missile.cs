@@ -1,0 +1,30 @@
+using Godot;
+using System;
+
+public partial class Missile : CharacterBody2D
+{
+	private Node2D _player;
+
+	private Vector2 acceleration;
+	private Vector2 velocity;
+	private Random rng;
+	public override void _Ready()
+	{
+		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
+		acceleration = new Vector2(0, 0);
+		rng = new Random();
+		double angle = 2 * Math.PI * rng.NextDouble();
+		velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
+		velocity *= 1000; // make the intial one really large for dramatic effect
+	}
+
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _PhysicsProcess(double delta)
+	{
+		Vector2 destination = _player.GlobalPosition;
+		acceleration = destination - GlobalPosition;
+		velocity += acceleration.Clamp(-50, 50);
+		velocity = velocity.Clamp(-1000, 1000);
+		Position += velocity * (float)delta;
+	}
+}
