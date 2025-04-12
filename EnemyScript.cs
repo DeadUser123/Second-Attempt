@@ -46,16 +46,16 @@ public partial class EnemyScript : CharacterBody2D {
 			}
 			direction_decision_time = 0;
 		}
-		if (this.Position.Y < 0) {
+		if (this.GlobalPosition.Y < 0) {
 			_direction = Vector2.Down;
 			direction_decision_time = 0;
-		} else if (this.Position.Y > 650) {
+		} else if (this.GlobalPosition.Y > 650) {
 			_direction = Vector2.Up;
 			direction_decision_time = 0;
-		} else if (this.Position.X < 0) {
+		} else if (this.GlobalPosition.X < 0) {
 			_direction = Vector2.Right;
 			direction_decision_time = 0;
-		} else if (this.Position.X > 1150) {
+		} else if (this.GlobalPosition.X > 1150) {
 			_direction = Vector2.Left;
 			direction_decision_time = 0;
 		}

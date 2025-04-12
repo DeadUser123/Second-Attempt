@@ -4,11 +4,13 @@
 [ext_resource type="Texture2D" uid="uid://csx0o7fa6r51k" path="res://icon.svg" id="2_ypbl2"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0jbyd"]
-radius = 5.65685
+radius = 30.0666
 
 [node name="Missile" type="Node2D"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_j0qs5")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]

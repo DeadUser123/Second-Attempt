@@ -29,6 +29,16 @@ public partial class Player : CharacterBody2D
 			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
 		}
 
+		if (this.GlobalPosition.Y < 0 && velocity.Y < 0) {
+			velocity.Y = 0;
+		} else if (this.GlobalPosition.Y > 650 && velocity.Y > 0) {
+			velocity.Y = 0;
+		} else if (this.GlobalPosition.X < 0 && velocity.X < 0) {
+			velocity.X = 0;
+		} else if (this.GlobalPosition.X > 1150 & velocity.X > 0) {
+			velocity.X = 0;
+		}
+
 		Velocity = velocity;
 		KinematicCollision2D collision = MoveAndCollide(velocity * (float)delta);
 		if (collision != null)
@@ -37,6 +47,12 @@ public partial class Player : CharacterBody2D
 			if (collider is EnemyScript enemyScript)
 			{
 				GetTree().SetMeta("death_message", "You Were Killed By A Generic Enemy");
+				GetTree().SetMeta("score", scoreText.GetScore());
+				GetTree().ChangeSceneToFile("res://GameOver.tscn");
+			}
+			else if (collider is Missile missile)
+			{
+				GetTree().SetMeta("death_message", "You Were Shot Down By Missile");
 				GetTree().SetMeta("score", scoreText.GetScore());
 				GetTree().ChangeSceneToFile("res://GameOver.tscn");
 			}

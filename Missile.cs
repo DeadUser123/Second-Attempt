@@ -8,9 +8,11 @@ public partial class Missile : CharacterBody2D
 	private Vector2 acceleration;
 	private Vector2 velocity;
 	private Random rng;
+	private Score scoreText;
 	public override void _Ready()
 	{
 		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
+		scoreText = GetNode<Score>("/root/Gameplay/Score");
 		acceleration = new Vector2(0, 0);
 		rng = new Random();
 		double angle = 2 * Math.PI * rng.NextDouble();
@@ -24,7 +26,13 @@ public partial class Missile : CharacterBody2D
 		Vector2 destination = _player.GlobalPosition;
 		acceleration = destination - GlobalPosition;
 		velocity += acceleration.LimitLength((float)(100 * Math.Sqrt(2.0)));
-		velocity = velocity.LimitLength((float)(1000 * Math.Sqrt(2.0)));
+		velocity = velocity.LimitLength((float)(750 * Math.Sqrt(2.0)));
 		Position += velocity * (float)delta;
+	}
+
+	public void GotHit()
+	{
+		scoreText.ChangeScore(423);
+		QueueFree();
 	}
 }
