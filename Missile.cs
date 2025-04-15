@@ -26,8 +26,9 @@ public partial class Missile : CharacterBody2D
 		Vector2 destination = _player.GlobalPosition;
 		acceleration = destination - GlobalPosition;
 		velocity += acceleration.LimitLength((float)(100 * Math.Sqrt(2.0)));
-		velocity = velocity.LimitLength((float)(750 * Math.Sqrt(2.0)));
+		velocity = velocity.LimitLength((float)(600 * Math.Sqrt(2.0)));
 		Position += velocity * (float)delta;
+		Rotation = velocity.Angle() + (float)Math.PI / 2;
 	}
 
 	public void GotHit()
