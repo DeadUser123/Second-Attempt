@@ -17,7 +17,7 @@ public partial class Missile : CharacterBody2D
 		rng = new Random();
 		double angle = 2 * Math.PI * rng.NextDouble();
 		velocity = new Vector2((float)Math.Cos(angle), (float)Math.Sin(angle));
-		velocity *= 1000; // make the intial one really large for dramatic effect
+		velocity *= 1000;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

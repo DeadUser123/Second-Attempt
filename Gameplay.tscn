@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://d0vvp42xgp21s"]
+[gd_scene load_steps=6 format=3 uid="uid://d0vvp42xgp21s"]
 
 [ext_resource type="PackedScene" uid="uid://v5f2mkcuko7b" path="res://TestSpawner.tscn" id="1_vwtcd"]
 [ext_resource type="PackedScene" uid="uid://be8a5hx6odjn3" path="res://Player.tscn" id="2_oojlc"]
 [ext_resource type="PackedScene" uid="uid://dao7vo5t5h8wa" path="res://Missile.tscn" id="4_m57ha"]
 [ext_resource type="PackedScene" uid="uid://ni8cj3sakvff" path="res://Score.tscn" id="4_ooqqy"]
+[ext_resource type="PackedScene" uid="uid://py5a10ogjk5m" path="res://EnemyShooter.tscn" id="5_augxw"]
 
 [node name="Gameplay" type="Node2D"]
 
@@ -23,3 +24,12 @@ fit_content = true
 
 [node name="Missile" parent="." instance=ExtResource("4_m57ha")]
 position = Vector2(258, 227)
+
+[node name="Missile2" parent="." instance=ExtResource("4_m57ha")]
+position = Vector2(568, 185)
+
+[node name="Missile3" parent="." instance=ExtResource("4_m57ha")]
+position = Vector2(1014, 203)
+
+[node name="EnemyShooter" parent="." instance=ExtResource("5_augxw")]
+position = Vector2(222.891, 476.809)

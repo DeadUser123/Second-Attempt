@@ -9,7 +9,7 @@ size = Vector2(64, 65)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6qr4r"]
 size = Vector2(54, 58)
 
-[node name="EnemyBullet" type="Node2D"]
+[node name="EnemyBullet" type="CharacterBody2D"]
 script = ExtResource("1_ggdrr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

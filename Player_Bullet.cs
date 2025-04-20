@@ -29,8 +29,9 @@ public partial class Player_Bullet : CharacterBody2D
 			velocity.Y = Mathf.MoveToward(Velocity.Y, 0, Speed);
 		}
 
-		KinematicCollision2D collision = MoveAndCollide(velocity * (float) delta);
-		if (collision != null) {
+		KinematicCollision2D collision = MoveAndCollide(velocity * (float)delta);
+		if (collision != null)
+		{
 			Node2D collider = collision.GetCollider() as Node2D;
 			if (collider is EnemyScript enemyScript)
 			{
@@ -44,6 +45,10 @@ public partial class Player_Bullet : CharacterBody2D
 				enemy.GotHit();
 				QueueFree();
 			}
+		}
+		
+		if (GlobalPosition.Y < -100) {
+			QueueFree();
 		}
 	}
 
