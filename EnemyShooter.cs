@@ -78,24 +78,24 @@ public partial class EnemyShooter : CharacterBody2D
 			_direction = Vector2.Down;
 			direction_decision_time = 0;
 		}
-		else if (this.Position.Y > 300)
+		if (this.Position.Y > 300)
 		{
 			_direction = Vector2.Up;
 			direction_decision_time = 0;
 		}
-		else if (this.Position.X < 0)
+		if (this.Position.X < 0)
 		{
 			_direction = Vector2.Right;
 			direction_decision_time = 0;
 		}
-		else if (this.Position.X > 1150)
+		if (this.Position.X > 1150)
 		{
 			_direction = Vector2.Left;
 			direction_decision_time = 0;
 		}
 		Position += _direction * speed * (float)delta;
 
-		if (shooting_time > 5)
+		if (shooting_time > 3)
 		{
 			shoot();
 			shooting_time = rng.Next(-2, 2);

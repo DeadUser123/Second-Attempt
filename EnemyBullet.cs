@@ -1,7 +1,8 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-public partial class EnemyBullet : CharacterBody2D {
+public partial class EnemyBullet : CharacterBody2D
+{
 	[Export] public float Speed = 400f;        // Speed of the enemy
 	[Export] public float ShootingInterval = 2f; // Time between shots
 	private Vector2 _direction;               // Movement direction
@@ -15,9 +16,6 @@ public partial class EnemyBullet : CharacterBody2D {
 
 		_direction = Vector2.Down;
 		// _shootTimer.Start();
-	}
-
-	public void relocate() {
 	}
 	public override void _PhysicsProcess(double delta)
 	{
@@ -47,9 +45,15 @@ public partial class EnemyBullet : CharacterBody2D {
 				QueueFree();
 			}
 		}
-		
-		if (GlobalPosition.Y > 1000) {
+
+		if (GlobalPosition.Y > 1000)
+		{
 			QueueFree();
 		}
+	}
+
+	public void GotHit()
+	{
+		QueueFree();
 	}
 }

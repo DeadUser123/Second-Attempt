@@ -25,7 +25,7 @@ public partial class TestSpawner : Node2D
 	public override void _Ready()
 	{
 		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			Node2D instance = (Node2D)Enemy.Instantiate();
 			GetTree().CurrentScene.CallDeferred("add_child", instance);
