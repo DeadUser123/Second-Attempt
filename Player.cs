@@ -56,6 +56,12 @@ public partial class Player : CharacterBody2D
 				GetTree().SetMeta("score", scoreText.GetScore());
 				GetTree().ChangeSceneToFile("res://GameOver.tscn");
 			}
+			else if (collider is EnemyShooter enemyShooter)
+			{
+				GetTree().SetMeta("death_message", "You Collided With a Shooter");
+				GetTree().SetMeta("score", scoreText.GetScore());
+				GetTree().ChangeSceneToFile("res://GameOver.tscn");
+			}
 		}
 	}
 

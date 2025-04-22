@@ -45,6 +45,12 @@ public partial class Player_Bullet : CharacterBody2D
 				enemy.GotHit();
 				QueueFree();
 			}
+			else if (collider is EnemyShooter enemyShooter)
+			{
+				var enemy = collider as EnemyShooter;
+				enemy.GotHit();
+				QueueFree();
+			}
 		}
 		
 		if (GlobalPosition.Y < -100) {

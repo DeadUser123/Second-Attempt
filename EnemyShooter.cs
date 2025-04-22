@@ -13,6 +13,7 @@ public partial class EnemyShooter : CharacterBody2D
 	private List<Vector2> directions = new List<Vector2>();
 	private Random rng;
 	public static PackedScene Bullet { get; } = GD.Load<PackedScene>("res://EnemyBullet.tscn");
+	public static PackedScene Missile { get; } = GD.Load<PackedScene>("res://Missile.tscn");
 	public override void _Ready()
 	{
 		directions.Add(Vector2.Up);
@@ -36,6 +37,7 @@ public partial class EnemyShooter : CharacterBody2D
 	{
 		scoreText.ChangeScore(100);
 		this.relocate();
+		shooting_time = rng.Next(-2, 2);
 	}
 
 	public void relocate()
@@ -44,8 +46,16 @@ public partial class EnemyShooter : CharacterBody2D
 	}
 	public void shoot()
 	{
-		if (Bullet == null) return;
-		Node2D instance = (Node2D)Bullet.Instantiate();
+		if (Bullet == null || Missile == null) return;
+		Node2D instance;
+		if (rng.Next(0, 10) != 0)
+		{
+			instance = (Node2D)Bullet.Instantiate();
+		}
+		else
+		{
+			instance = (Node2D)Missile.Instantiate();
+		}
 
 		instance.GlobalPosition = this.GlobalPosition;
 

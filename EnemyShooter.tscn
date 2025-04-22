@@ -10,10 +10,11 @@ size = Vector2(64, 65)
 size = Vector2(54, 58)
 
 [node name="EnemyShooter" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_d6ogx")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-modulate = Color(1, 0, 0, 1)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_e2ufp")
 
