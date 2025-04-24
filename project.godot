@@ -53,5 +53,5 @@ Test_Key={
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+global_illumination/voxel_gi/quality=1
+viewport/hdr_2d=true

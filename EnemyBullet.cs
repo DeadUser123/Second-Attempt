@@ -41,7 +41,7 @@ public partial class EnemyBullet : CharacterBody2D
 			if (collider is Player player)
 			{
 				var player1 = collider as Player;
-				player1.GotHit("A Bullet");
+				player1.GotHit("You Were Shot");
 				QueueFree();
 			}
 		}

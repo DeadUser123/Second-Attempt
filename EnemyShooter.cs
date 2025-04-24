@@ -14,6 +14,8 @@ public partial class EnemyShooter : CharacterBody2D
 	private Random rng;
 	public static PackedScene Bullet { get; } = GD.Load<PackedScene>("res://EnemyBullet.tscn");
 	public static PackedScene Missile { get; } = GD.Load<PackedScene>("res://Missile.tscn");
+	public static PackedScene Explosion { get; } = GD.Load<PackedScene>("res://Explosion.tscn");
+	private float spawn_immunity = 1.0f;
 	public override void _Ready()
 	{
 		directions.Add(Vector2.Up);
@@ -35,6 +37,12 @@ public partial class EnemyShooter : CharacterBody2D
 
 	public void GotHit()
 	{
+		// if (spawn_immunity >= 0) return;
+		Node2D instance = (Node2D)Explosion.Instantiate();
+
+		instance.Position = this.GlobalPosition;
+
+		GetTree().CurrentScene.AddChild(instance);
 		scoreText.ChangeScore(100);
 		this.relocate();
 		shooting_time = rng.Next(-2, 2);
@@ -63,6 +71,7 @@ public partial class EnemyShooter : CharacterBody2D
 	}
 	public override void _PhysicsProcess(double delta)
 	{
+		if (spawn_immunity >= 0) spawn_immunity -= (float)delta;
 		direction_decision_time += delta;
 		shooting_time += delta;
 		if (direction_decision_time > 0.2)

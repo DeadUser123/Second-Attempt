@@ -1,32 +1,64 @@
 using Godot;
 using System;
 
-public partial class Explosion : CharacterBody2D
+public partial class Explosion : Node2D
 {
-	public float max_size = 1f;
-	public float curr_size = 0f;
-	private float transparency = 1f;
+	public float size = 1f;
+	private float time = 0f;
+	private Area2D area;
 
 	public override void _Ready()
 	{
-		Scale = new Vector2(0, 0);
+		area = GetNode<Area2D>("Area2D");
+
+		var collisionShape = area.GetNode<CollisionShape2D>("CollisionShape2D");
+		if (collisionShape.Shape is CircleShape2D circle)
+		{
+			circle.Radius *= size;
+		}
 	}
+
 	public override void _PhysicsProcess(double delta)
 	{
-		if (curr_size < max_size)
-		{
-			curr_size += 4f * (float)delta;
-		}
-		else if (curr_size < 1.5f * max_size || transparency > 0)
-		{
-			if (curr_size < 1.5f * max_size) curr_size += 1f * (float)delta;
-			if (transparency > 0) transparency -= 1f * (float)delta;
-		}
-		else
+		time += (float)delta;
+		if (time > 0.5f)
 		{
 			QueueFree();
 		}
-		Scale = new Vector2(curr_size, curr_size);
-		Modulate = new Color(1, 1, 1, transparency);
+
+		// var overlappingBodies = area.GetOverlappingBodies();
+		// foreach (var collider in overlappingBodies)
+		// {
+		// 	if (collider is EnemyScript enemyScript)
+		// 	{
+		// 		var enemy = collider as EnemyScript;
+		// 		enemy.GotHit();
+		// 		QueueFree();
+		// 	}
+		// 	else if (collider is Missile missile)
+		// 	{
+		// 		var enemy = collider as Missile;
+		// 		enemy.GotHit();
+		// 		QueueFree();
+		// 	}
+		// 	else if (collider is EnemyShooter enemyShooter)
+		// 	{
+		// 		var enemy = collider as EnemyShooter;
+		// 		enemy.GotHit();
+		// 		QueueFree();
+		// 	}
+		// 	else if (collider is EnemyBullet c)
+		// 	{
+		// 		var enemy = collider as EnemyBullet;
+		// 		enemy.GotHit();
+		// 		QueueFree();
+		// 	}
+		// 	else if (collider is Player player)
+		// 	{
+		// 		var player1 = collider as Player;
+		// 		player1.GotHit("You Got Caught in the Blast");
+		// 		QueueFree();
+		// 	}
+		// }
 	}
 }

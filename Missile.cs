@@ -9,6 +9,7 @@ public partial class Missile : CharacterBody2D
 	private Vector2 velocity;
 	private Random rng;
 	private Score scoreText;
+	public static PackedScene Explosion { get; } = GD.Load<PackedScene>("res://Explosion.tscn");
 	public override void _Ready()
 	{
 		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
@@ -33,6 +34,11 @@ public partial class Missile : CharacterBody2D
 
 	public void GotHit()
 	{
+		Node2D instance = (Node2D)Explosion.Instantiate();
+
+		instance.Position = this.GlobalPosition;
+
+		GetTree().CurrentScene.AddChild(instance);
 		scoreText.ChangeScore(423);
 		QueueFree();
 	}

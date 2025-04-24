@@ -1,8 +1,18 @@
-[gd_scene load_steps=4 format=3 uid="uid://d0vvp42xgp21s"]
+[gd_scene load_steps=5 format=3 uid="uid://d0vvp42xgp21s"]
 
 [ext_resource type="PackedScene" uid="uid://v5f2mkcuko7b" path="res://TestSpawner.tscn" id="1_vwtcd"]
 [ext_resource type="PackedScene" uid="uid://be8a5hx6odjn3" path="res://Player.tscn" id="2_oojlc"]
 [ext_resource type="PackedScene" uid="uid://ni8cj3sakvff" path="res://Score.tscn" id="4_ooqqy"]
+
+[sub_resource type="Environment" id="Environment_dfdpp"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 1.0
+glow_levels/2 = 1.0
+glow_levels/4 = 1.0
+glow_levels/6 = 1.0
+glow_levels/7 = 1.0
+glow_blend_mode = 1
 
 [node name="Gameplay" type="Node2D"]
 
@@ -19,3 +29,6 @@ anchor_bottom = 0.0
 offset_right = 1157.0
 offset_bottom = 23.0
 fit_content = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dfdpp")
