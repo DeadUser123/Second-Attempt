@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c2rwgk5b0lmjn"]
 
 [ext_resource type="Script" path="res://ToGameButton.cs" id="1_oc3g0"]
-[ext_resource type="PackedScene" uid="uid://2itqumyobpbs" path="res://Explosion.tscn" id="2_3g518"]
+[ext_resource type="PackedScene" uid="uid://djjs154qih570" path="res://Laser.tscn" id="2_bd60c"]
 
 [sub_resource type="Environment" id="Environment_xy1eq"]
 background_mode = 3
@@ -14,8 +14,6 @@ glow_levels/7 = 1.0
 glow_blend_mode = 1
 
 [node name="Main" type="Node2D"]
-
-[node name="Explosion" parent="." instance=ExtResource("2_3g518")]
 
 [node name="Button" type="Button" parent="."]
 offset_left = 364.0
@@ -43,3 +41,6 @@ text = "*Some Conditions May Apply"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_xy1eq")
+
+[node name="Laser" parent="." instance=ExtResource("2_bd60c")]
+position = Vector2(118, 205)
