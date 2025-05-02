@@ -15,7 +15,9 @@ public partial class EnemyShooter : CharacterBody2D
 	public static PackedScene Bullet { get; } = GD.Load<PackedScene>("res://EnemyBullet.tscn");
 	public static PackedScene Missile { get; } = GD.Load<PackedScene>("res://Missile.tscn");
 	public static PackedScene Explosion { get; } = GD.Load<PackedScene>("res://Explosion.tscn");
-	private float spawn_immunity = 1.0f;
+	private bool isRecentlyHit = false;
+	private float hitCooldown = 0.1f; // Prevent being hit more than once every 0.1s
+	private uint originalcollisionlayer;
 	public override void _Ready()
 	{
 		directions.Add(Vector2.Up);
@@ -32,27 +34,36 @@ public partial class EnemyShooter : CharacterBody2D
 		// _shootTimer.Start();
 		direction_decision_time = 0;
 		shooting_time = 0;
-		Position = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
+		GlobalPosition = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
 	}
 
 	public void GotHit()
 	{
-		// if (spawn_immunity >= 0) return;
+		if (isRecentlyHit) {
+			hitCooldown = 0.1f;
+			return;
+		}
+
+		isRecentlyHit = true;
+
+		originalcollisionlayer = CollisionLayer;
+		CollisionLayer = 0;
 		Node2D instance = (Node2D)Explosion.Instantiate();
 
-		instance.Position = this.GlobalPosition;
+		instance.GlobalPosition = this.GlobalPosition;
 
 		GetTree().CurrentScene.AddChild(instance);
 		scoreText.ChangeScore(100);
-		this.relocate();
+		this.Relocate();
 		shooting_time = rng.Next(-2, 2);
+		CollisionLayer = originalcollisionlayer;
 	}
 
-	public void relocate()
+	public void Relocate()
 	{
-		Position = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
+		GlobalPosition = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
 	}
-	public void shoot()
+	public void Shoot()
 	{
 		if (Bullet == null || Missile == null) return;
 		Node2D instance;
@@ -71,7 +82,12 @@ public partial class EnemyShooter : CharacterBody2D
 	}
 	public override void _PhysicsProcess(double delta)
 	{
-		if (spawn_immunity >= 0) spawn_immunity -= (float)delta;
+		if (isRecentlyHit && hitCooldown <= 0)
+		{
+			isRecentlyHit = false;
+		} else if (isRecentlyHit) {
+			hitCooldown -= (float)delta;
+		}
 		direction_decision_time += delta;
 		shooting_time += delta;
 		if (direction_decision_time > 0.2)
@@ -106,7 +122,7 @@ public partial class EnemyShooter : CharacterBody2D
 
 		if (shooting_time > 3)
 		{
-			shoot();
+			Shoot();
 			shooting_time = rng.Next(-2, 2);
 		}
 	}

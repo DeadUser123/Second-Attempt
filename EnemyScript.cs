@@ -28,7 +28,7 @@ public partial class EnemyScript : CharacterBody2D {
 		_direction = directions[rng.Next(0, 4)];
 		// _shootTimer.Start();
 		direction_decision_time = 0;
-		Position = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
+		GlobalPosition = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
 	}
 
 	public void GotHit() {
@@ -37,7 +37,7 @@ public partial class EnemyScript : CharacterBody2D {
 
 		Node2D instance = (Node2D)Explosion.Instantiate();
 
-		instance.Position = this.GlobalPosition;
+		instance.GlobalPosition = this.GlobalPosition;
 
 		GetTree().CurrentScene.AddChild(instance);
 
@@ -45,7 +45,7 @@ public partial class EnemyScript : CharacterBody2D {
 	}
 
 	public void relocate() {
-		Position = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
+		GlobalPosition = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
 	}
     public override void _PhysicsProcess(double delta)
     {

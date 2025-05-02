@@ -7,6 +7,7 @@ public partial class TestSpawner : Node2D
 
 	public static PackedScene Enemy { get; } = GD.Load<PackedScene>("res://EnemyTest.tscn");
 	public static PackedScene EnemyShooter { get; } = GD.Load<PackedScene>("res://EnemyShooter.tscn");
+	public static PackedScene Laser { get; } = GD.Load<PackedScene>("res://Laser.tscn");
 
 	private Node2D _player;
 
@@ -25,12 +26,12 @@ public partial class TestSpawner : Node2D
 	public override void _Ready()
 	{
 		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 0; i++)
 		{
 			Node2D instance = (Node2D)Enemy.Instantiate();
 			GetTree().CurrentScene.CallDeferred("add_child", instance);
 		}
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 1; i++)
 		{
 			Node2D instance = (Node2D)EnemyShooter.Instantiate();
 			GetTree().CurrentScene.CallDeferred("add_child", instance);
