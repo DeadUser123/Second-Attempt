@@ -40,11 +40,11 @@ public partial class EnemyShooter : CharacterBody2D
 	public void GotHit()
 	{
 		if (isRecentlyHit) {
-			hitCooldown = 0.1f;
 			return;
 		}
 
 		isRecentlyHit = true;
+		hitCooldown = 0.1f;
 
 		originalcollisionlayer = CollisionLayer;
 		CollisionLayer = 0;

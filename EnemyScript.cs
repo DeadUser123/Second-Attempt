@@ -12,7 +12,9 @@ public partial class EnemyScript : CharacterBody2D {
 	private List<Vector2> directions = new List<Vector2>();
 	private Random rng;
 	public static PackedScene Explosion { get; } = GD.Load<PackedScene>("res://Explosion.tscn");
-	private float spawn_immunity = 1.0f;
+	private bool isRecentlyHit = false;
+	private float hitCooldown = 0.1f; // Prevent being hit more than once every 0.1s
+	private uint originalcollisionlayer;
     public override void _Ready()
 	{
 		directions.Add(Vector2.Up);
@@ -32,6 +34,13 @@ public partial class EnemyScript : CharacterBody2D {
 	}
 
 	public void GotHit() {
+		if (isRecentlyHit) {
+			return;
+		}
+		isRecentlyHit = true;
+		hitCooldown = 0.1f;
+		originalcollisionlayer = CollisionLayer;
+		CollisionLayer = 0;
 		// if (spawn_immunity >= 0) return;
 		scoreText.ChangeScore(100);
 
@@ -42,6 +51,7 @@ public partial class EnemyScript : CharacterBody2D {
 		GetTree().CurrentScene.AddChild(instance);
 
 		this.relocate();
+		CollisionLayer = originalcollisionlayer;
 	}
 
 	public void relocate() {
@@ -49,7 +59,13 @@ public partial class EnemyScript : CharacterBody2D {
 	}
     public override void _PhysicsProcess(double delta)
     {
-		if (spawn_immunity >= 0) spawn_immunity -= (float)delta;
+		if (isRecentlyHit) {
+			hitCooldown -= (float)delta;
+			if (hitCooldown <= 0) {
+				isRecentlyHit = false;
+				hitCooldown = 0.1f;
+			}
+		}
 		direction_decision_time += delta;
 		if (direction_decision_time > 0.2) {
 			if (rng.Next(0, 5) == 0) {

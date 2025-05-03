@@ -4,7 +4,7 @@ using System;
 public partial class Laser : RayCast2D
 {
 	private Node2D _player; 
-	private float max_lifetime = 10f;
+	private float max_lifetime = 1f;
 	private float time = 0f;
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
