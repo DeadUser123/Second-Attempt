@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 project/assembly_name="Spaceship Combat Roguelite"
 
+[global_group]
+
+players="to be able to find the player lol"
+
 [input]
 
 left={

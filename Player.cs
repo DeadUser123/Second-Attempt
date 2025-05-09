@@ -9,6 +9,7 @@ public partial class Player : CharacterBody2D
 	public override void _Ready()
 	{
 		scoreText = GetNode<Score>("/root/Gameplay/Score");
+		AddToGroup("players");
 	}
 
 	public override void _PhysicsProcess(double delta)
