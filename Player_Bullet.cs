@@ -3,7 +3,8 @@ using System;
 
 public partial class Player_Bullet : CharacterBody2D
 {
-	public const float Speed = 800.0f;
+	public const float Speed = 1600.0f;
+	private double lifetime = 5.0d;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -17,7 +18,7 @@ public partial class Player_Bullet : CharacterBody2D
 		Vector2 velocity = Velocity;
 
 		// Move the bullet upward
-		Vector2 direction = Vector2.Up;
+		Vector2 direction = new Vector2(Mathf.Cos(GlobalRotation), Mathf.Sin(GlobalRotation));
 		if (direction != Vector2.Zero)
 		{
 			velocity.X = direction.X * Speed;
@@ -58,8 +59,8 @@ public partial class Player_Bullet : CharacterBody2D
 				QueueFree();
 			}
 		}
-		
-		if (GlobalPosition.Y < -100) {
+		lifetime -= delta;
+		if (lifetime <= 0) {
 			QueueFree();
 		}
 	}

@@ -8,6 +8,7 @@ public partial class EnemyScript : CharacterBody2D {
     private Timer _shootTimer;                // Timer for shooting
 	private double direction_decision_time;
 	private Node2D _player;                   // Reference to the player
+	private Node2D camera;
 	private Score scoreText; // Reference to the Score node
 	private List<Vector2> directions = new List<Vector2>();
 	private Random rng;
@@ -15,7 +16,7 @@ public partial class EnemyScript : CharacterBody2D {
 	private bool isRecentlyHit = false;
 	private float hitCooldown = 0.1f; // Prevent being hit more than once every 0.1s
 	private uint originalcollisionlayer;
-    public override void _Ready()
+	public override void _Ready()
 	{
 		directions.Add(Vector2.Up);
 		directions.Add(Vector2.Down);
@@ -27,10 +28,13 @@ public partial class EnemyScript : CharacterBody2D {
 
 		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
 
+		camera = GetNode<Node2D>("/root/Gameplay/Camera2D");
+
 		_direction = directions[rng.Next(0, 4)];
 		// _shootTimer.Start();
 		direction_decision_time = 0;
-		GlobalPosition = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
+		GlobalPosition = GetSpawnPosition(1500, 2000);
+		GlobalPosition += camera.GlobalPosition;
 	}
 
 	public void GotHit() {
@@ -54,44 +58,68 @@ public partial class EnemyScript : CharacterBody2D {
 		CollisionLayer = originalcollisionlayer;
 	}
 
-	public void relocate() {
-		GlobalPosition = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
+	public void relocate()
+	{
+		GlobalPosition = GetSpawnPosition(1500, 2000);
+		GlobalPosition += camera.GlobalPosition;
+	}
+	
+	private Vector2 GetSpawnPosition(float minDistance, float maxDistance)
+	{
+		// Random angle in radians
+		double angle = rng.NextDouble() * Math.PI * 2;
+
+		// Random distance between min and max
+		float distance = (float)(minDistance + rng.NextDouble() * (maxDistance - minDistance));
+
+		// Polar → Cartesian
+		Vector2 offset = new Vector2(
+			(float)(Math.Cos(angle) * distance),
+			(float)(Math.Sin(angle) * distance)
+		);
+
+		return offset;
 	}
     public override void _PhysicsProcess(double delta)
-    {
-		if (isRecentlyHit) {
+	{
+		if (isRecentlyHit)
+		{
 			hitCooldown -= (float)delta;
-			if (hitCooldown <= 0) {
+			if (hitCooldown <= 0)
+			{
 				isRecentlyHit = false;
 				hitCooldown = 0.1f;
 			}
 		}
 		direction_decision_time += delta;
-		if (direction_decision_time > 0.2) {
-			if (rng.Next(0, 5) == 0) {
+		if (direction_decision_time > 0.2)
+		{
+			if (rng.Next(0, 5) == 0)
+			{
 				_direction = directions[rng.Next(0, 4)];
 			}
 			direction_decision_time = 0;
 		}
-		if (this.GlobalPosition.Y < 0) {
+		if (this.GlobalPosition.Y < 0 + camera.GlobalPosition.Y)
+		{
 			_direction = Vector2.Down;
 			direction_decision_time = 0;
 		}
-		if (this.GlobalPosition.Y > 650)
+		if (this.GlobalPosition.Y > 650 + camera.GlobalPosition.Y)
 		{
 			_direction = Vector2.Up;
 			direction_decision_time = 0;
 		}
-		if (this.GlobalPosition.X < 0)
+		if (this.GlobalPosition.X < 0 + camera.GlobalPosition.X)
 		{
 			_direction = Vector2.Right;
 			direction_decision_time = 0;
 		}
-		if (this.GlobalPosition.X > 1150)
+		if (this.GlobalPosition.X > 1150 + camera.GlobalPosition.X)
 		{
 			_direction = Vector2.Left;
 			direction_decision_time = 0;
 		}
-		Position += _direction * speed * (float) delta;
+		Position += _direction * speed * (float)delta;
 	}
 }

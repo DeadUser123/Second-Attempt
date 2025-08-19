@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://be8a5hx6odjn3"]
 
 [ext_resource type="Script" path="res://Player.cs" id="1_ablh7"]
-[ext_resource type="Texture2D" uid="uid://d22j1t4w76plt" path="res://player.png" id="2_3tfhv"]
+[ext_resource type="Texture2D" uid="uid://bskw52quntlrs" path="res://shipswarm.svg" id="2_cmftg"]
 
 [node name="Player" type="Node2D" groups=["players"]]
 
@@ -10,10 +10,9 @@ collision_mask = 5
 script = ExtResource("1_ablh7")
 
 [node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-modulate = Color(0.784314, 0.705882, 0.705882, 1)
 position = Vector2(3.8147e-06, 5.72205e-06)
 scale = Vector2(0.0986111, 0.0986111)
-texture = ExtResource("2_3tfhv")
+texture = ExtResource("2_cmftg")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="CharacterBody2D"]
-polygon = PackedVector2Array(-28, 23, 28, 23, 5, -16, 4, -36, -5, -36, -5, -16)
+polygon = PackedVector2Array(0, 18, 27, 35, 0, -34, -28, 36)

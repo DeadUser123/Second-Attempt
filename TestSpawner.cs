@@ -1,65 +1,71 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class TestSpawner : Node2D
 {
-	public static PackedScene Bullet { get; } = GD.Load<PackedScene>("res://TestProjectile.tscn");
-
 	public static PackedScene Enemy { get; } = GD.Load<PackedScene>("res://EnemyTest.tscn");
 	public static PackedScene EnemyShooter { get; } = GD.Load<PackedScene>("res://EnemyShooter.tscn");
-	public static PackedScene Laser { get; } = GD.Load<PackedScene>("res://Laser.tscn");
+	private static PackedScene Stars { get; } = GD.Load<PackedScene>("res://Star.tscn");
 
-	private Node2D _player;
-	private float laser_cooldown = 0f;
+	[Export] private Node2D camera; // drag your Camera2D here
+	[Export] private int starCount = 200; 
+	[Export] private float spawnRadius = 3000f;
 
-	public void SpawnObject()
-	{
-		if (Bullet == null || _player == null) return;
+	private List<Node2D> stars = new();
 
-		Node2D instance = (Node2D)Bullet.Instantiate();
-
-		instance.Position = _player.GlobalPosition;
-
-		GetTree().CurrentScene.AddChild(instance);
-		
-	}
-	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
+		camera = GetNode<Node2D>("/root/Gameplay/Camera2D");
+		// Spawn enemies
 		for (int i = 0; i < 3; i++)
 		{
 			Node2D instance = (Node2D)Enemy.Instantiate();
 			GetTree().CurrentScene.CallDeferred("add_child", instance);
 		}
+
 		for (int i = 0; i < 5; i++)
 		{
 			Node2D instance = (Node2D)EnemyShooter.Instantiate();
 			GetTree().CurrentScene.CallDeferred("add_child", instance);
 		}
+
+		// Spawn initial stars
+		GD.Randomize();
+		for (int i = 0; i < starCount; i++)
+		{
+			SpawnStar();
+		}
 	}
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta)
 	{
-		if (laser_cooldown > 0)
+		Vector2 camPos = camera.GlobalPosition;
+
+		foreach (var star in stars)
 		{
-			laser_cooldown -= (float)delta;
-		}
-		else if (laser_cooldown < 0)
-		{
-			laser_cooldown = 0;
-		}
-		if (Input.IsActionJustPressed("Test_Key")) {
-			SpawnObject();
-		} else if (Input.IsActionJustPressed("Laser")) {
-			if (laser_cooldown > 0) {
-				return;
+			// If a star drifts too far from camera, recycle it
+			if (star.GlobalPosition.DistanceTo(camPos) > spawnRadius * 1f)
+			{
+				star.GlobalPosition = camPos + RandomOffset();
 			}
-			Node2D instance = (Node2D)Laser.Instantiate();
-			instance.GlobalPosition = _player.GlobalPosition;
-			GetTree().CurrentScene.AddChild(instance);
-			laser_cooldown = 2f;
 		}
+	}
+
+	private void SpawnStar()
+	{
+		var star = Stars.Instantiate<Node2D>();
+		GetTree().CurrentScene.CallDeferred("add_child", star);
+
+		star.GlobalPosition = camera.GlobalPosition + RandomOffset();
+		stars.Add(star);
+	}
+
+	private Vector2 RandomOffset()
+	{
+		return new Vector2(
+			(float)GD.RandRange(-spawnRadius, spawnRadius),
+			(float)GD.RandRange(-spawnRadius, spawnRadius)
+		);
 	}
 }

@@ -32,6 +32,23 @@ public partial class Missile : CharacterBody2D
 		Rotation = velocity.Angle() + (float)Math.PI / 2;
 	}
 
+	private Vector2 GetSpawnPosition(float minDistance, float maxDistance)
+	{
+		// Random angle in radians
+		double angle = rng.NextDouble() * Math.PI * 2;
+
+		// Random distance between min and max
+		float distance = (float)(minDistance + rng.NextDouble() * (maxDistance - minDistance));
+
+		// Polar → Cartesian
+		Vector2 offset = new Vector2(
+			(float)(Math.Cos(angle) * distance),
+			(float)(Math.Sin(angle) * distance)
+		);
+
+		return offset;
+	}
+
 	public void GotHit()
 	{
 		Node2D instance = (Node2D)Explosion.Instantiate();

@@ -9,6 +9,7 @@ public partial class EnemyShooter : CharacterBody2D
 	private double shooting_time;                // Timer for shooting
 	private double direction_decision_time;
 	private Node2D _player;                   // Reference to the player
+	private Node2D camera;
 	private Score scoreText; // Reference to the Score node
 	private List<Vector2> directions = new List<Vector2>();
 	private Random rng;
@@ -29,15 +30,17 @@ public partial class EnemyShooter : CharacterBody2D
 		scoreText = GetNode<Score>("/root/Gameplay/Score");
 
 		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
+		camera = GetNode<Node2D>("/root/Gameplay/Camera2D");
 
 		_direction = directions[rng.Next(0, 4)];
 		// _shootTimer.Start();
 		direction_decision_time = 0;
 		shooting_time = 0;
-		GlobalPosition = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
+		GlobalPosition = GetSpawnPosition(1500, 2000);
+		GlobalPosition += camera.GlobalPosition;
 	}
 
-	public void GotHit()
+	public void GotHit() // because lasers are complicated
 	{
 		if (isRecentlyHit) {
 			return;
@@ -61,8 +64,27 @@ public partial class EnemyShooter : CharacterBody2D
 
 	public void Relocate()
 	{
-		GlobalPosition = new Vector2(-100 + rng.Next(0, 2) * 1250, -100 + rng.Next(0, 2) * 750);
+		GlobalPosition = GetSpawnPosition(1500, 2000);
+		GlobalPosition += camera.GlobalPosition;
 	}
+
+	private Vector2 GetSpawnPosition(float minDistance, float maxDistance)
+	{
+		// Random angle in radians
+		double angle = rng.NextDouble() * Math.PI * 2;
+
+		// Random distance between min and max
+		float distance = (float)(minDistance + rng.NextDouble() * (maxDistance - minDistance));
+
+		// Polar → Cartesian
+		Vector2 offset = new Vector2(
+			(float)(Math.Cos(angle) * distance),
+			(float)(Math.Sin(angle) * distance)
+		);
+
+		return offset;
+	}
+
 	public void Shoot()
 	{
 		if (Bullet == null || Missile == null) return;
@@ -98,22 +120,22 @@ public partial class EnemyShooter : CharacterBody2D
 			}
 			direction_decision_time = 0;
 		}
-		if (this.Position.Y < 0)
+		if (this.Position.Y < 0 + camera.GlobalPosition.Y)
 		{
 			_direction = Vector2.Down;
 			direction_decision_time = 0;
 		}
-		if (this.Position.Y > 300)
+		if (this.Position.Y > 300 + camera.GlobalPosition.Y)
 		{
 			_direction = Vector2.Up;
 			direction_decision_time = 0;
 		}
-		if (this.Position.X < 0)
+		if (this.Position.X < 0 + camera.GlobalPosition.X)
 		{
 			_direction = Vector2.Right;
 			direction_decision_time = 0;
 		}
-		if (this.Position.X > 1150)
+		if (this.Position.X > 1150 + camera.GlobalPosition.X)
 		{
 			_direction = Vector2.Left;
 			direction_decision_time = 0;

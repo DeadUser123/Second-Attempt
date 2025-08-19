@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://clwoxipilmvc"]
+
+[ext_resource type="Texture2D" uid="uid://bkoslrxrlmm4v" path="res://turretBase.svg" id="1_f2oa4"]
+[ext_resource type="Texture2D" uid="uid://cc34ywfk7rqpt" path="res://turretTop.svg" id="1_jf4g6"]
+[ext_resource type="Script" path="res://TurretTop.cs" id="3_52jgm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_usudm"]
+size = Vector2(136, 134)
+
+[node name="EnemyTurret" type="Node2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+
+[node name="base" type="Sprite2D" parent="CharacterBody2D"]
+position = Vector2(-1, 1)
+scale = Vector2(0.320833, 0.320833)
+texture = ExtResource("1_f2oa4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-1, 1)
+shape = SubResource("RectangleShape2D_usudm")
+
+[node name="top" type="Sprite2D" parent="."]
+position = Vector2(-1, 1)
+scale = Vector2(0.320833, 0.320833)
+texture = ExtResource("1_jf4g6")
+script = ExtResource("3_52jgm")

@@ -1,12 +1,15 @@
 using Godot;
 using System;
 
-public partial class CameraMovement : Node2D { // make everything move and keep player still for freedom of movement
-    public override void _Ready() {
+public partial class CameraMovement : Node2D {
+    
+    private Node2D _player;
+    public override void _Ready()
+    {
+        _player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
     }
 
     public override void _Process(double delta) {
-        Vector2 direction = Input.GetVector("left", "right", "up", "down");
-        GlobalPosition -= direction * (float)delta;
+        GlobalPosition = _player.GlobalPosition;
     }
 }
