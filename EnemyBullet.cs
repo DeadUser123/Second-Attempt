@@ -8,13 +8,17 @@ public partial class EnemyBullet : CharacterBody2D
 	private Node2D _player;                   // Reference to the player
 	private Random rng;
 	private double lifetime = 10.0d;
+	private bool directionSet = false;
 	public override void _Ready()
 	{
 		rng = new Random();
 
 		_player = GetNode<Node2D>("/root/Gameplay/CharacterBody2D/CharacterBody2D");
 
-		GlobalRotation = GlobalPosition.AngleToPoint(_player.GlobalPosition);
+		if (!directionSet)
+		{
+			GlobalRotation = GlobalPosition.AngleToPoint(_player.GlobalPosition);
+		}
 		// _shootTimer.Start();
 	}
 	public override void _PhysicsProcess(double delta)
@@ -66,5 +70,11 @@ public partial class EnemyBullet : CharacterBody2D
 	public void SetSpeed(float speed)
 	{
 		Speed = speed;
+	}
+
+	public void SetDirection(Vector2 direction)
+	{
+		directionSet = true;
+		GlobalRotation = direction.Normalized().Angle();  // make the sprite face the direction
 	}
 }

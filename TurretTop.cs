@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 
-public partial class TurretTop : Node2D
+public partial class TurretTop : Sprite2D
 {
 
     public override void _Ready()
@@ -12,9 +12,14 @@ public partial class TurretTop : Node2D
     public override void _Process(double delta)
     {
     }
-    
+
     public void Rotate(double angle)
     {
-        Rotation += (float)angle;
+        GlobalRotation += (float)angle;
+    }
+    
+    public new float GetRotation()
+    {
+        return GlobalRotation;
     }
 }
