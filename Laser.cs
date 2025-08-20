@@ -27,24 +27,14 @@ public partial class Laser : RayCast2D
 		if (IsColliding())
 		{
 			Node2D collider = GetCollider() as Node2D;
-			if (collider is EnemyScript enemyScript)
+			if (collider is EnemyBase enemyBase)
 			{
-				var enemy = collider as EnemyScript;
+				var enemy = collider as EnemyBase;
 				enemy.GotHit();
 			}
 			else if (collider is Missile missile)
 			{
 				var enemy = collider as Missile;
-				enemy.GotHit();
-			}
-			else if (collider is EnemyShooter enemyShooter)
-			{
-				var enemy = collider as EnemyShooter;
-				enemy.GotHit();
-			}
-			else if (collider is EnemyBullet c)
-			{
-				var enemy = collider as EnemyBullet;
 				enemy.GotHit();
 			}
 		}
