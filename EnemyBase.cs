@@ -1,13 +1,14 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public abstract partial class EnemyBase : CharacterBody2D
 {
     [Export] public float speed = 400f;
     [Export] public float ShootingInterval = 2f;
     [Export] public int MaxHealth = 1;   // Default health
-    protected int currentHealth;
+    public int currentHealth;
 
     protected Vector2 _direction;
     protected double direction_decision_time;
@@ -17,14 +18,16 @@ public abstract partial class EnemyBase : CharacterBody2D
     protected Random rng;
     protected bool isRecentlyHit = false;
     protected float hitCooldown = 0.1f;
+    protected float maxHitCooldown = 0.1f;
     protected uint originalcollisionlayer;
     protected bool stayOnScreen = true;
     protected bool killParent = false;
     protected int scoreValue = 100;
     protected bool relocateAfterDeath = true;
-
     public static PackedScene Explosion { get; } = GD.Load<PackedScene>("res://Explosion.tscn");
-
+    public static PackedScene HealthBar { get; } = GD.Load<PackedScene>("res://HealthBar.tscn");
+    private HealthBar healthBar;
+    protected float respawnTime = 0f;
     protected List<Vector2> directions = new List<Vector2> {
         Vector2.Up, Vector2.Down, Vector2.Left, Vector2.Right
     };
@@ -53,11 +56,28 @@ public abstract partial class EnemyBase : CharacterBody2D
         currentHealth -= amount;
         if (currentHealth <= 0)
         {
-            Die();
+            _ = Die();
+        }
+        else
+        {
+            if (healthBar == null)
+            {
+                healthBar = (HealthBar)HealthBar.Instantiate();
+                healthBar.MaxHealth = MaxHealth;
+                healthBar.Value = currentHealth;
+                healthBar.ParentEnemy = this;
+                GetTree().CurrentScene.AddChild(healthBar);
+            }
+            else
+            {
+                healthBar.Value = currentHealth;
+                healthBar.Show();
+                healthBar.seconds = 0.0f; // Reset the timer
+            }
         }
     }
 
-    public virtual void Die()
+    public virtual async Task Die()
     {
         originalcollisionlayer = CollisionLayer;
         CollisionLayer = 0;
@@ -70,11 +90,19 @@ public abstract partial class EnemyBase : CharacterBody2D
 
         if (relocateAfterDeath)
         {
+            Hide();
             Relocate();
+            if (respawnTime > 0) await ToSignal(GetTree().CreateTimer(respawnTime), "timeout");
+            Show();            
             currentHealth = MaxHealth;
         }
         else
         {
+            if (healthBar != null)
+            {
+                healthBar.QueueFree();
+                healthBar = null;
+            }
             if (killParent)
                 GetParent().QueueFree();
             else
@@ -84,7 +112,7 @@ public abstract partial class EnemyBase : CharacterBody2D
         CollisionLayer = originalcollisionlayer;
     }
 
-    protected virtual void Relocate()
+    public virtual void Relocate()
     {
         GlobalPosition = GetSpawnPosition(1500, 2000);
         GlobalPosition += camera.GlobalPosition;
@@ -107,7 +135,7 @@ public abstract partial class EnemyBase : CharacterBody2D
         HandleMovement(delta);
     }
 
-    protected void HandleHitCooldown(double delta)
+    protected virtual void HandleHitCooldown(double delta)
     {
         if (isRecentlyHit)
         {
@@ -115,12 +143,12 @@ public abstract partial class EnemyBase : CharacterBody2D
             if (hitCooldown <= 0)
             {
                 isRecentlyHit = false;
-                hitCooldown = 0.1f;
+                hitCooldown = maxHitCooldown;
             }
         }
     }
 
-    protected void HandleDirection(double delta)
+    protected virtual void HandleDirection(double delta)
     {
         direction_decision_time += delta;
         if (direction_decision_time > 0.2 && rng.Next(0, 5) == 0)
@@ -132,26 +160,26 @@ public abstract partial class EnemyBase : CharacterBody2D
         if (stayOnScreen)
         {
             Vector2 screenSize = GetViewportRect().Size;
-            if (GlobalPosition.X < 0)
+            if (GlobalPosition.X < 0 + camera.GlobalPosition.X)
             {
                 _direction.X = Mathf.Abs(_direction.X);
             }
-            else if (GlobalPosition.X > screenSize.X)
+            else if (GlobalPosition.X > screenSize.X + camera.GlobalPosition.X)
             {
                 _direction.X = -Mathf.Abs(_direction.X);
             }
-            if (GlobalPosition.Y < 0)
+            if (GlobalPosition.Y < 0 + camera.GlobalPosition.Y)
             {
                 _direction.Y = Mathf.Abs(_direction.Y);
             }
-            else if (GlobalPosition.Y > screenSize.Y)
+            else if (GlobalPosition.Y > screenSize.Y + camera.GlobalPosition.Y)
             {
                 _direction.Y = -Mathf.Abs(_direction.Y);
             }
         }
     }
 
-    protected void HandleMovement(double delta)
+    protected virtual void HandleMovement(double delta)
     {
         GlobalPosition += _direction * speed * (float)delta;
     }

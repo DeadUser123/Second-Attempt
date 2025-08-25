@@ -12,21 +12,24 @@ public partial class TurretBase : EnemyBase
 	private float spread = 0.75f;
 	private float firingInterval = 0.05f;
 	public static PackedScene Bullet { get; } = GD.Load<PackedScene>("res://EnemyBullet.tscn");
+	private bool enteredOrbit = false;
+	private int orbitDirection = -1;
 
 	public override void _Ready()
 	{
 		base._Ready();
 		top = GetNode<Sprite2D>("../top");
-		MaxHealth = 10;
+		MaxHealth = 20;
 		currentHealth = MaxHealth;
 		killParent = true;
 		scoreValue = 1000;
+		speed = 600f;
 		relocateAfterDeath = false;
+		Relocate();
 	}
 
 	public override void _Process(double delta)
 	{
-		HandleHitCooldown(delta);
 		shooting_time -= delta;
 
 		Vector2 direction = _player.GlobalPosition - top.GlobalPosition;
@@ -43,8 +46,33 @@ public partial class TurretBase : EnemyBase
 		}
 	}
 
-	public override void _PhysicsProcess(double delta)
+	protected override void HandleDirection(double delta)
 	{
+		_direction = _player.GlobalPosition - GlobalPosition;
+		_direction = _direction.Normalized();
+	}
+
+	protected override void HandleMovement(double delta)
+	{
+		if ((_player.GlobalPosition - GlobalPosition).Length() > 400)
+		{
+			base.HandleMovement(delta);
+			enteredOrbit = false;
+		}
+		else
+		{
+			if (!enteredOrbit)
+			{
+				enteredOrbit = true;
+				orbitDirection = rng.Next(0, 2) == 0 ? 1 : -1;
+			}
+			Vector2 orbitDir = new Vector2(-orbitDirection * _direction.Y, orbitDirection * _direction.X);
+
+			Velocity = orbitDir * speed;
+			GlobalPosition += Velocity * (float)delta;
+		}
+
+		top.GlobalPosition = GlobalPosition; 
 	}
 
 	private async void ShootBurst()

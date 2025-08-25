@@ -6,7 +6,13 @@ public partial class TestSpawner : Node2D
 {
 	public static PackedScene Enemy { get; } = GD.Load<PackedScene>("res://EnemyTest.tscn");
 	public static PackedScene EnemyShooter { get; } = GD.Load<PackedScene>("res://EnemyShooter.tscn");
+	public static PackedScene EnemyTurret { get; } = GD.Load<PackedScene>("res://EnemyTurret.tscn");
+	public static PackedScene EnemyBomber { get; } = GD.Load<PackedScene>("res://EnemyBomber.tscn");
 	private static PackedScene Stars { get; } = GD.Load<PackedScene>("res://Star.tscn");
+	private double turretInterval = 10.0d;
+	private double maxTurretInterval = 10.0d;
+	private Random rng = new Random();
+	private double time = 0d;
 
 	[Export] private Node2D camera; // drag your Camera2D here
 	[Export] private int starCount = 200; 
@@ -40,6 +46,7 @@ public partial class TestSpawner : Node2D
 
 	public override void _Process(double delta)
 	{
+		time += delta;
 		Vector2 camPos = camera.GlobalPosition;
 
 		foreach (var star in stars)
@@ -49,6 +56,20 @@ public partial class TestSpawner : Node2D
 			{
 				star.GlobalPosition = camPos + RandomOffset();
 			}
+		}
+		turretInterval += delta;
+		if (turretInterval % maxTurretInterval == 0 || turretInterval > maxTurretInterval)
+		{
+			Node2D instance = (Node2D)EnemyTurret.Instantiate();
+			GetTree().CurrentScene.CallDeferred("add_child", instance);
+			turretInterval = rng.NextDouble() * 2;
+			GD.Print("Turret Spawned!");
+		}
+
+		if (time % 30 < delta)
+		{
+			Node2D instance = (Node2D)EnemyBomber.Instantiate();
+			GetTree().CurrentScene.CallDeferred("add_child", instance);
 		}
 	}
 

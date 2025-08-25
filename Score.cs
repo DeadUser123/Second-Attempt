@@ -20,7 +20,7 @@ public partial class Score : RichTextLabel
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
 	{
-		GlobalPosition = _player.GlobalPosition + offset;
+		GlobalPosition = _player.GlobalPosition - new Vector2(GetViewportRect().Size.X / 2, GetViewportRect().Size.Y / 2);
 	}
 
 	public void ChangeScore(int amount) {

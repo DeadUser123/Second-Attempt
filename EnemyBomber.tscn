@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cerrtwh0l3yyf"]
+
+[ext_resource type="Script" path="res://EnemyBomber.cs" id="1_jk7ar"]
+[ext_resource type="Texture2D" uid="uid://bskw52quntlrs" path="res://shipswarm.svg" id="2_d5awa"]
+
+[node name="EnemyBomber" type="CharacterBody2D"]
+modulate = Color(4, 1, 0, 1)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_jk7ar")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(7.62939e-06, -9.53674e-07)
+scale = Vector2(0.0395833, 0.0395833)
+texture = ExtResource("2_d5awa")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(0, 7, 11, 14, 0, -14, -11, 14)
